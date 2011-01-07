@@ -2,8 +2,6 @@
 
 """Core classes which is generally imported as from cl.core import *."""
 
-from PySide import QtCore
-
 __all__ = [ "EE", "Error", "LogicalError" ]
 
 
@@ -71,5 +69,5 @@ class LogicalError(Error):
     """Any logical error."""
 
     def __init__(self):
-        Error.__init__(self, QtCore.QObject.tr("Logical error."))
+        Error.__init__(self, "Logical error.")
 
