@@ -5,24 +5,6 @@
 __all__ = [ "EE", "Error", "LogicalError" ]
 
 
-def EE(e):
-    """Converts an exception to a human readable string."""
-
-    if hasattr(e, "strerror") and e.strerror:
-        error = e.strerror
-    else:
-        error = unicode(e)
-
-    if error:
-        if not error[0].isupper():
-            error = error[0].upper() + error[1:]
-
-        if not error.endswith("."):
-            error += "."
-
-    return error
-
-
 class Error(Exception):
     """The base class for all exceptions that our code throws."""
 
@@ -70,4 +52,28 @@ class LogicalError(Error):
 
     def __init__(self):
         Error.__init__(self, "Logical error.")
+
+
+def _(text, *args):
+    """Stub for future gettext support."""
+
+    return unicode(text).format(*args) if len(args) else unicode(text)
+
+
+def EE(e):
+    """Converts an exception to a human readable string."""
+
+    if hasattr(e, "strerror") and e.strerror:
+        error = e.strerror
+    else:
+        error = unicode(e)
+
+    if error:
+        if not error[0].isupper():
+            error = error[0].upper() + error[1:]
+
+        if not error.endswith("."):
+            error += "."
+
+    return error
 
