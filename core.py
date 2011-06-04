@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """Core classes which is generally imported as from cl.core import *."""
 
 __all__ = [ "EE", "Error", "LogicalError" ]
