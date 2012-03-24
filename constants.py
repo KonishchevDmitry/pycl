@@ -2,6 +2,7 @@
 
 """Contains some useful constants."""
 
+
 MINUTE_SECONDS = 60
 """Number of seconds in minute."""
 
@@ -23,4 +24,8 @@ KILOBYTE = 1024
 
 MEGABYTE = 1024 * KILOBYTE
 """Number of bytes in megabyte."""
+
+
+BUFSIZE = 4 * KILOBYTE
+"""Default I/O buffer size."""
 
