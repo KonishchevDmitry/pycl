@@ -1,10 +1,8 @@
-#!/usr/bin/env python
-
 """Provides functions for displaying GUI messages."""
 
 from PySide import QtCore, QtGui
 
-from cl.core import EE
+from pycl.core import EE
 
 
 _DIALOGS = []

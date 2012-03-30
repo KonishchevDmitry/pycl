@@ -27,8 +27,8 @@ def get_locale_encoding(cache = False):
             # There are some bugs in OS X locale settings, so just force using
             # UTF-8 encoding on errors.
             _ENCODING = "UTF-8"
-
-        raise
+        else:
+            raise
 
     return _ENCODING
 

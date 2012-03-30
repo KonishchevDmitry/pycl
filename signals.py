@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """
 Implements all logic that is needed in ordinary Python programs for setting up
 UNIX signal handlers.
@@ -10,7 +8,7 @@ import signal
 
 from PySide import QtCore
 
-LOG = logging.getLogger("cl.signals")
+LOG = logging.getLogger("pycl.signals")
 
 
 class _UnixSignalDispatcher(QtCore.QObject):
