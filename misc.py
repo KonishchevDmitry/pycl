@@ -3,6 +3,8 @@
 import errno
 import uuid as origin_uuid
 
+import pycl.main
+
 
 def syscall_wrapper(func, *args, **kwargs):
     """Calls func() ignoring EINTR error."""
@@ -15,6 +17,15 @@ def syscall_wrapper(func, *args, **kwargs):
                 pass
             else:
                 raise
+
+
+def to_unicode(string):
+    """Converts a string to a Unicode string if it's not a unicode object."""
+
+    if isinstance(string, unicode):
+        return string
+    else:
+        return string.decode(pycl.main.get_locale_encoding(cache = True))
 
 
 def uuid():
