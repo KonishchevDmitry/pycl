@@ -12,23 +12,19 @@ _ENCODING = None
 def get_locale_encoding(cache = False):
     """Returns current locale's encoding."""
 
+    # There are some bugs in OS X locale settings.
+    if pycl.main.is_osx():
+        return "UTF-8"
+
     global _ENCODING
 
     if cache and _ENCODING is not None:
         return _ENCODING
 
-    try:
-        _ENCODING = locale.getlocale()[1]
+    _ENCODING = locale.getlocale()[1]
 
-        if _ENCODING is None:
-            _ENCODING = "UTF-8"
-    except ValueError:
-        if pycl.main.is_osx():
-            # There are some bugs in OS X locale settings, so just force using
-            # UTF-8 encoding on errors.
-            _ENCODING = "UTF-8"
-        else:
-            raise
+    if _ENCODING is None:
+        _ENCODING = "UTF-8"
 
     return _ENCODING
 
@@ -42,7 +38,9 @@ def is_osx():
 def set_environment():
     """Prepares the script's environment."""
 
-    pycl.main.set_locale()
+    # There are some bugs in OS X locale settings.
+    if not pycl.main.is_osx():
+        pycl.main.set_locale()
 
 
 def set_locale():
