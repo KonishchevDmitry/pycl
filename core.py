@@ -1,4 +1,4 @@
-"""Core classes which is generally imported as from cl.core import *."""
+"""Core classes which is generally imported as from pycl.core import *."""
 
 __all__ = [ "EE", "Error", "LogicalError" ]
 
