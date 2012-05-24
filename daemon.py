@@ -8,6 +8,7 @@ import sys
 
 from pycl.core import Error
 from pycl.misc import syscall_wrapper
+from pycl.misc import to_system_encoding
 
 
 class PidFileLocked(Error):
@@ -23,7 +24,9 @@ def acquire_pidfile(pid_file):
     fd = -1
 
     try:
-        fd = syscall_wrapper(os.open, pid_file, os.O_RDWR | os.O_CREAT, 0600)
+        fd = syscall_wrapper(os.open, to_system_encoding(pid_file),
+            os.O_RDWR | os.O_CREAT, 0600)
+
         if fd <= sys.stderr.fileno():
             syscall_wrapper(os.dup2, fd, sys.stderr.fileno() + 1)
             syscall_wrapper(os.close, fd)
@@ -40,7 +43,7 @@ def acquire_pidfile(pid_file):
         fd_stat = os.fstat(fd)
 
         try:
-            file_stat = os.stat(pid_file)
+            file_stat = os.stat(to_system_encoding(pid_file))
         except EnvironmentError as e:
             if e.errno == errno.ENOENT:
                 raise PidFileLocked()

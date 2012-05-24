@@ -1,7 +1,12 @@
 """Contains various functions for script bootstrapping."""
 
+# Attention! Be aware that importing something heavy here may break
+# set_environment().
+
+import codecs
 import locale
 import platform
+import sys
 
 import pycl.main
 
@@ -36,14 +41,23 @@ def is_osx():
 
 
 def set_environment():
-    """Prepares the script's environment."""
+    """Configures the script's environment."""
 
     # There are some bugs in OS X locale settings.
     if not pycl.main.is_osx():
         pycl.main.set_locale()
+
+    # Configure the standart I/O streams.
+    # Without this Python's logging won't be able to accept unicode data and
+    # we'll have to explicitly convert all printed data to the system encoding.
+    encoding = pycl.main.get_locale_encoding(cache = True)
+    sys.stdin = codecs.getreader(encoding)(sys.stdin)
+    sys.stdout = codecs.getwriter(encoding)(sys.stdout)
+    sys.stderr = codecs.getwriter(encoding)(sys.stderr)
 
 
 def set_locale():
     """Sets current locale from environment."""
 
     locale.setlocale(locale.LC_ALL, "")
+

@@ -19,6 +19,15 @@ def syscall_wrapper(func, *args, **kwargs):
                 raise
 
 
+def to_system_encoding(string):
+    """Converts a string to system encoding if it's a unicode object."""
+
+    if isinstance(string, unicode):
+        return string.encode(pycl.main.get_locale_encoding(cache = True))
+    else:
+        return string
+
+
 def to_unicode(string):
     """Converts a string to a Unicode string if it's not a unicode object."""
 
