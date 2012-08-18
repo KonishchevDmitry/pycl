@@ -36,7 +36,7 @@ class TextTable:
         rows = copy.deepcopy(self.__rows)
         row_lines = [ 1 ] * len(rows)
 
-        first = True
+        first_visible = True
         for header in headers:
             max_len = 0
             for row_id, row in enumerate(rows):
@@ -45,9 +45,9 @@ class TextTable:
                 row[header["id"]] = cell_lines
 
                 row_lines[row_id] = max(row_lines[row_id], len(cell_lines))
-
-                for line in cell_lines:
-                    max_len = max(max_len, len(line))
+                max_len = reduce(
+                    lambda max_len, line: max(max_len, len(line)),
+                    cell_lines, max_len)
 
             header["hide"] = ( header.get("hide_if_empty", False) and max_len == 0 )
             header["max_len"] = max(max_len, len(header.get("name") or ""))
@@ -55,8 +55,8 @@ class TextTable:
             if header["hide"]:
                 continue
 
-            if first:
-                first = False
+            if first_visible:
+                first_visible = False
             else:
                 stream.write(" " * spacing)
             stream.write(header["name"].center(header["max_len"]))
@@ -65,11 +65,14 @@ class TextTable:
 
         for row_id, row in enumerate(rows):
             for line_id in xrange(0, row_lines[row_id]):
-                for header_id, header in enumerate(headers):
+                first_visible = True
+                for header in headers:
                     if header["hide"]:
                         continue
 
-                    if header_id:
+                    if first_visible:
+                        first_visible = False
+                    else:
                         stream.write(" " * spacing)
 
                     cell_lines = row[header["id"]]
@@ -103,7 +106,9 @@ class TextTable:
                     lines.append(line)
                     line = ""
 
-                line += " " + word
+                if line:
+                    line += " "
+                line += word
 
             lines.append(line)
 
