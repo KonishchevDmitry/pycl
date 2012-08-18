@@ -1,5 +1,7 @@
 """Provides functions for displaying GUI messages."""
 
+from __future__ import unicode_literals
+
 from PySide import QtCore, QtGui
 
 from pycl.core import EE
@@ -46,4 +48,3 @@ def _message(parent, type, title, message, block):
 
         _DIALOGS.append(message_box)
         message_box.finished.connect(lambda: _DIALOGS.remove(message_box))
-

@@ -1,5 +1,7 @@
 """Core classes which is generally imported as from pycl.core import *."""
 
+from __future__ import unicode_literals
+
 __all__ = [ "EE", "Error", "LogicalError" ]
 
 
@@ -74,4 +76,3 @@ def EE(e):
             error += "."
 
     return error
-

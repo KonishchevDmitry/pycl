@@ -3,6 +3,8 @@ Provides a few tools that do most of routine actions which you have to do when
 you work with Python's logging module.
 """
 
+from __future__ import unicode_literals
+
 import logging
 import sys
 
@@ -43,7 +45,7 @@ def setup(debug_mode = False, filter = None, max_log_name_length = 16, level = N
     if level is not None:
         log.setLevel(level)
 
-    format = u""
+    format = ""
     if debug_mode:
         format += "%(asctime)s.%(msecs)03d (%(filename)12.12s:%(lineno)04d) [%(name){0}.{0}s]: ".format(max_log_name_length)
     format += "%(levelname)s: %(message)s"
@@ -54,4 +56,3 @@ def setup(debug_mode = False, filter = None, max_log_name_length = 16, level = N
         handler.addFilter(filter)
 
     log.addHandler(handler)
-

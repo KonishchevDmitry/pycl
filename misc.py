@@ -1,5 +1,7 @@
 """Miscellaneous convenient functions."""
 
+from __future__ import unicode_literals
+
 import errno
 import uuid as origin_uuid
 
@@ -23,7 +25,7 @@ def to_system_encoding(string):
     """Converts a string to system encoding if it's a unicode object."""
 
     if isinstance(string, unicode):
-        return string.encode(pycl.main.get_locale_encoding(cache = True))
+        return string.encode(pycl.main.system_encoding())
     else:
         return string
 
@@ -34,11 +36,11 @@ def to_unicode(string):
     if isinstance(string, unicode):
         return string
     else:
-        return string.decode(pycl.main.get_locale_encoding(cache = True))
+        return string.decode(pycl.main.system_encoding())
 
 
 def uuid():
     """Generates a compact UUID."""
 
-    return str(origin_uuid.uuid4()).replace("-", "")
+    return unicode(origin_uuid.uuid4()).replace("-", "")
 

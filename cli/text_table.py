@@ -1,7 +1,12 @@
 """Provides a class for displaying table data in the text form."""
 
+from __future__ import unicode_literals
+
+import codecs
 import copy
 import sys
+
+from pycl.main import system_encoding
 
 
 class TextTable:
@@ -20,10 +25,13 @@ class TextTable:
         self.__rows.append(row)
 
 
-    def draw(self, headers, stream = sys.stdout, spacing = 3):
+    def draw(self, headers, stream = None, spacing = 3):
         """Prints out the table contents."""
 
         headers = copy.deepcopy(headers)
+
+        if stream is None:
+            stream = codecs.getwriter(system_encoding())(sys.stdout)
 
         rows = copy.deepcopy(self.__rows)
         row_lines = [ 1 ] * len(rows)
@@ -32,7 +40,7 @@ class TextTable:
         for header in headers:
             max_len = 0
             for row_id, row in enumerate(rows):
-                cell = unicode(row[header["id"]]) if header["id"] in row else u""
+                cell = unicode(row[header["id"]]) if header["id"] in row else ""
                 cell_lines = self.__get_cell_lines(cell, max_width = header.get("max_width"))
                 row[header["id"]] = cell_lines
 
@@ -85,7 +93,7 @@ class TextTable:
         lines = []
 
         for source_line in cell.split("\n"):
-            line = u""
+            line = ""
 
             for word in source_line.split(" "):
                 if (
@@ -93,7 +101,7 @@ class TextTable:
                     len(line) + 1 + len(word) > max_width
                 ):
                     lines.append(line)
-                    line = u""
+                    line = ""
 
                 line += " " + word
 

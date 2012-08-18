@@ -3,6 +3,8 @@ Implements all logic that is needed in ordinary Python programs for setting up
 UNIX signal handlers.
 """
 
+from __future__ import unicode_literals
+
 import logging
 import signal
 
@@ -71,4 +73,3 @@ def setup():
     signal.signal(signal.SIGCHLD, signal.SIG_IGN)
     signal.siginterrupt(signal.SIGCHLD, False)
     signal.siginterrupt(signal.SIGPIPE, False)
-
