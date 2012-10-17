@@ -31,7 +31,7 @@ class OutputHandler(logging.Handler):
             self.release()
 
 
-def setup(debug_mode = False, filter = None, max_log_name_length = 16, level = None):
+def setup(name = None, debug_mode = False, filter = None, max_log_name_length = 16, level = None):
     """Sets up the logging."""
 
     logging.addLevelName(logging.DEBUG,   "D")
@@ -39,7 +39,7 @@ def setup(debug_mode = False, filter = None, max_log_name_length = 16, level = N
     logging.addLevelName(logging.WARNING, "W")
     logging.addLevelName(logging.ERROR,   "E")
 
-    log = logging.getLogger()
+    log = logging.getLogger(name)
 
     log.setLevel(logging.DEBUG if debug_mode else logging.INFO)
     if level is not None:
