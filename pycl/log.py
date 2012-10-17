@@ -24,7 +24,7 @@ class OutputHandler(logging.Handler):
 
         try:
             stream = sys.stdout if record.levelno <= logging.INFO else sys.stderr
-            print >> stream, self.format(record)
+            print >> stream, self.format(record).encode("utf-8")
         except:
             self.handleError(record)
         finally:
