@@ -1,7 +1,5 @@
 """Provides functions for displaying GUI messages."""
 
-from __future__ import unicode_literals
-
 from PySide import QtCore, QtGui
 
 from pycl.core import EE

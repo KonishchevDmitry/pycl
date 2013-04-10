@@ -1,7 +1,5 @@
 """Provides a class for displaying table data in the text form."""
 
-from __future__ import unicode_literals
-
 import codecs
 import copy
 import sys
