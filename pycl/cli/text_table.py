@@ -1,10 +1,8 @@
 """Provides a class for displaying table data in the text form."""
 
-import codecs
 import copy
+import functools
 import sys
-
-from pycl.main import system_encoding
 
 
 class TextTable:
@@ -23,14 +21,10 @@ class TextTable:
         self.__rows.append(row)
 
 
-    def draw(self, headers, stream = None, spacing = 3):
+    def draw(self, headers, stream = sys.stdout, spacing = 3):
         """Prints out the table contents."""
 
         headers = copy.deepcopy(headers)
-
-        if stream is None:
-            stream = codecs.getwriter(system_encoding())(sys.stdout)
-
         rows = copy.deepcopy(self.__rows)
         row_lines = [ 1 ] * len(rows)
 
@@ -38,12 +32,12 @@ class TextTable:
         for header in headers:
             max_len = 0
             for row_id, row in enumerate(rows):
-                cell = unicode(row[header["id"]]) if header["id"] in row else ""
+                cell = str(row[header["id"]]) if header["id"] in row else ""
                 cell_lines = self.__get_cell_lines(cell, max_width = header.get("max_width"))
                 row[header["id"]] = cell_lines
 
                 row_lines[row_id] = max(row_lines[row_id], len(cell_lines))
-                max_len = reduce(
+                max_len = functools.reduce(
                     lambda max_len, line: max(max_len, len(line)),
                     cell_lines, max_len)
 
@@ -62,7 +56,7 @@ class TextTable:
         stream.write("\n\n")
 
         for row_id, row in enumerate(rows):
-            for line_id in xrange(0, row_lines[row_id]):
+            for line_id in range(0, row_lines[row_id]):
                 first_visible = True
                 for header in headers:
                     if header["hide"]:

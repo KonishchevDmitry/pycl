@@ -24,7 +24,7 @@ def acquire_pidfile(pid_file):
     fd = -1
 
     try:
-        fd = eintr_retry(os.open)(pid_file, os.O_RDWR | os.O_CREAT, 0600)
+        fd = eintr_retry(os.open)(pid_file, os.O_RDWR | os.O_CREAT, 0o600)
 
         if fd <= sys.stderr.fileno():
             eintr_retry(os.dup2)(fd, sys.stderr.fileno() + 1)
