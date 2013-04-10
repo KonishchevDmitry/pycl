@@ -3,8 +3,6 @@ Implements all logic that is needed in ordinary Python programs for setting up
 UNIX signal handlers.
 """
 
-from __future__ import unicode_literals
-
 import logging
 import signal
 

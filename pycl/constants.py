@@ -26,4 +26,3 @@ MEGABYTE = 1024 * KILOBYTE
 
 BUFSIZE = 4 * KILOBYTE
 """Default I/O buffer size."""
-

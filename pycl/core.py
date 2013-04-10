@@ -1,15 +1,11 @@
-"""Core classes which is generally imported as from pycl.core import *."""
-
-from __future__ import unicode_literals
-
-__all__ = [ "EE", "Error", "LogicalError" ]
+"""Core classes and function."""
 
 
 class Error(Exception):
     """The base class for all exceptions that our code throws."""
 
     def __init__(self, error, *args):
-        Exception.__init__(self, unicode(error).format(*args) if len(args) else unicode(error))
+        Exception.__init__(self, error.format(*args) if len(args) else error)
 
 
     def append(self, error, *args):
@@ -19,7 +15,7 @@ class Error(Exception):
             error = Error(*args)
         error = EE(error)
 
-        text = unicode(self).strip()
+        text = str(self).strip()
 
         if text:
             if text[-1] in (":", ",", ";"):
@@ -57,7 +53,7 @@ class LogicalError(Error):
 def _(text, *args):
     """Stub for future gettext support."""
 
-    return unicode(text).format(*args) if len(args) else unicode(text)
+    return text.format(*args) if len(args) else text
 
 
 def EE(e):
@@ -66,7 +62,7 @@ def EE(e):
     if hasattr(e, "strerror") and e.strerror:
         error = e.strerror
     else:
-        error = unicode(e)
+        error = str(e)
 
     if error:
         if not error[0].isupper():

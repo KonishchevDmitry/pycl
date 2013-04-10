@@ -3,7 +3,7 @@ Provides a few tools that do most of routine actions which you have to do when
 you work with Python's logging module.
 """
 
-from __future__ import unicode_literals
+from __future__ import print_function # Suppresses Pyflakes errors
 
 import logging
 import sys
@@ -24,7 +24,7 @@ class OutputHandler(logging.Handler):
 
         try:
             stream = sys.stdout if record.levelno <= logging.INFO else sys.stderr
-            print >> stream, self.format(record).encode("utf-8")
+            print(self.format(record), file = stream)
         except:
             self.handleError(record)
         finally:
