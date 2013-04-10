@@ -8,8 +8,9 @@ import os
 import stat
 import sys
 
+from psys import eintr_retry
+
 from pycl.core import Error
-from pycl.misc import syscall_wrapper
 
 
 class PidFileLocked(Error):
@@ -25,11 +26,11 @@ def acquire_pidfile(pid_file):
     fd = -1
 
     try:
-        fd = syscall_wrapper(os.open, pid_file, os.O_RDWR | os.O_CREAT, 0600)
+        fd = eintr_retry(os.open)(pid_file, os.O_RDWR | os.O_CREAT, 0600)
 
         if fd <= sys.stderr.fileno():
-            syscall_wrapper(os.dup2, fd, sys.stderr.fileno() + 1)
-            syscall_wrapper(os.close, fd)
+            eintr_retry(os.dup2)(fd, sys.stderr.fileno() + 1)
+            eintr_retry(os.close)(fd)
             fd = sys.stderr.fileno() + 1
 
         try:
@@ -59,7 +60,7 @@ def acquire_pidfile(pid_file):
         return fd
     except Exception as e:
         if fd != -1:
-            syscall_wrapper(os.close, fd)
+            eintr_retry(os.close)(fd)
 
         if isinstance(e, PidFileLocked):
             raise e

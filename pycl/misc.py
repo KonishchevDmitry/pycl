@@ -8,19 +8,6 @@ import uuid as origin_uuid
 import pycl.main
 
 
-def syscall_wrapper(func, *args, **kwargs):
-    """Calls func() ignoring EINTR error."""
-
-    while True:
-        try:
-            return func(*args, **kwargs)
-        except EnvironmentError as e:
-            if e.errno == errno.EINTR:
-                pass
-            else:
-                raise
-
-
 def to_system_encoding(string):
     """Converts a string to system encoding if it's a unicode object."""
 
