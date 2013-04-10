@@ -1,7 +1,5 @@
 """Various daemon-related functions."""
 
-from __future__ import unicode_literals
-
 import errno
 import fcntl
 import os
