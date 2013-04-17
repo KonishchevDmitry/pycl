@@ -31,7 +31,7 @@ class OutputHandler(logging.Handler):
             self.release()
 
 
-def setup(name = None, debug_mode = False, filter = None, max_log_name_length = 16, level = None):
+def setup(name = None, debug_mode = False, include_time = None, filter = None, max_log_name_length = 16, level = None):
     """Sets up the logging."""
 
     logging.addLevelName(logging.DEBUG,   "D")
@@ -46,8 +46,10 @@ def setup(name = None, debug_mode = False, filter = None, max_log_name_length = 
         log.setLevel(level)
 
     format = ""
+    if include_time or debug_mode and include_time is None:
+        format += "%(asctime)s.%(msecs)03d "
     if debug_mode:
-        format += "%(asctime)s.%(msecs)03d (%(filename)12.12s:%(lineno)04d) [%(name){0}.{0}s]: ".format(max_log_name_length)
+        format += "(%(filename)12.12s:%(lineno)04d) [%(name){0}.{0}s]: ".format(max_log_name_length)
     format += "%(levelname)s: %(message)s"
 
     handler = OutputHandler()
