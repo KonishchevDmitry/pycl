@@ -3,3 +3,5 @@ pycl - A core library for my Python programs
 This is just a small set of useful classes which was written and grouped to the
 library to prevent me from writing a similar code for almost every project that
 I write in Python.
+
+This library is deprecated and is being split into smaller packages.
